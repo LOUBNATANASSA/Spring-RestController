@@ -14,28 +14,28 @@ public class CompteController {
     @Autowired
     private CompteRepository compteRepository;
 
-    // READ: Récupérer tous les comptes
-    @GetMapping("/comptes")
+    // READ: Récupérer tous les comptes (JSON et XML)
+    @GetMapping(value = "/comptes", produces = { "application/json", "application/xml" })
     public List<Compte> getAllComptes() {
         return compteRepository.findAll();
     }
 
-    // READ: Récupérer un compte par son identifiant
-    @GetMapping("/comptes/{id}")
+    // READ: Récupérer un compte par son identifiant (JSON et XML)
+    @GetMapping(value = "/comptes/{id}", produces = { "application/json", "application/xml" })
     public ResponseEntity<Compte> getCompteById(@PathVariable Long id) {
         return compteRepository.findById(id)
                 .map(compte -> ResponseEntity.ok().body(compte))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // CREATE: Ajouter un nouveau compte
-    @PostMapping("/comptes")
+    // CREATE: Ajouter un nouveau compte (JSON et XML)
+    @PostMapping(value = "/comptes", consumes = { "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
     public Compte createCompte(@RequestBody Compte compte) {
         return compteRepository.save(compte);
     }
 
-    // UPDATE: Mettre à jour un compte existant
-    @PutMapping("/comptes/{id}")
+    // UPDATE: Mettre à jour un compte existant (JSON et XML)
+    @PutMapping(value = "/comptes/{id}", consumes = { "application/json", "application/xml" }, produces = { "application/json", "application/xml" })
     public ResponseEntity<Compte> updateCompte(@PathVariable Long id, @RequestBody Compte compteDetails) {
         return compteRepository.findById(id)
                 .map(compte -> {
